@@ -1,0 +1,4 @@
+rootProject.name = 'microservice-webflux'
+include("services:user",
+        "services:notification",
+        "services:common")

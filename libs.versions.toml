@@ -1,0 +1,11 @@
+[versions]
+spring-boot = "3.3.0"
+spring-dependency-management = "1.1.5"
+rabbitmq-client = "5.21.0"
+
+[libraries]
+rabbitmq-client = {module = "com.rabbitmq:amqp-client", version.ref = "rabbitmq-client"}
+
+[plugins]
+spring-boot = {id = "org.springframework.boot", version.ref = "spring-boot"}
+spring-dependency-management = {id = "io.spring.dependency-management", version.ref = "spring-dependency-management"}
