@@ -1,37 +1,32 @@
 spring:
-  liquibase:
-    url: jdbc:postgresql://localhost:5430/postgres
-    user: postgres
-    password: secret
-    change-log: classpath:db.migration/db.changelog-master.yaml
-#    liquibase-schema: "users"
-    enabled: true
-#    default-schema: "users"
   r2dbc:
-    url: r2dbc:postgresql://localhost:5430/postgres
-    username: postgres
-    password: secret
-
-  #  devtools:
-  #    restart:
-  #      additional-paths: src/main/resources
-  #    livereload:
-  #      enabled: true
+    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
+  liquibase:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
+    user: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
+    change-log: classpath:db.migration/db.changelog-master.yaml
+    liquibase-schema: "users"
+    enabled: true
+  profiles:
+    active: dev
   application:
     name: my-app
-#  profiles:
-#    active: dev
-#  main:
-#    allow-bean-definition-overriding: true
+
+
 springdoc:
   api-docs:
     enabled: true
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
-# swagger
+
 
 application:
   token:
     signing:
-     key: 7C7P662RQS6JXHJL3VEK8ZJU0VHU4KZ2JXYJ8LZOCYHV591S97SL32HFZMADCVI2
+      key: 7C7P662RQS6JXHJL3VEK8ZJU0VHU4KZ2JXYJ8LZOCYHV591S97SL32HFZMADCVI2
+server:
+  port: 8081

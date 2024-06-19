@@ -1,0 +1,111 @@
+server:
+  port: 8200
+  forward-headers-strategy: framework
+  servlet:
+    contextPath: /
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: api-gateway
+
+  main:
+    web-application-type: reactive
+
+  codec:
+    max-in-memory-size: 16MB
+
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      #      default-filters:
+      #        - TokenRelay # Global filter to forward incoming access token down to microservices
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+
+      routes:
+        - id: users-service
+          uri: ${USER_SERVICE:http://localhost:8201}
+          predicates:
+            - Path=/api/users/**
+
+        - id: notification-service
+          uri: ${PRODUCT_SERVICE:http://localhost:8202}
+          predicates:
+            - Path=/api/products/**
+
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /api/$\{path}/v3/api-docs
+
+
+#springdoc:
+#  enable-native-support: true
+#  api-docs:
+#    groups:
+#      enabled: true
+#    enabled: true
+#  group-configs:
+#    - group: api-gateway
+#      packages-to-scan:
+#        - uz.mimsoft.lamenu.api.gateway
+#      display-name: API Gateway
+#    - group: product-service
+#      paths-to-match:
+#        - /product-service/**
+#      display-name: Product Service
+#    - group: user-service
+#      paths-to-match:
+#        - /user-service/**
+#      display-name: User Service
+#  swagger-ui:
+#    config-url: v3/api-docs/swagger-config
+#    url: /v3/api-docs
+#    urls:
+#      - name: user-service
+#        url: /api/users/v3/api-docs
+#      - name: product-service
+#        url: /api/products/v3/api-docs
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: "@application.version@"
+    description: "@application.description@"
+
+#management:
+#  server:
+#    port: 8081
+#  health:
+#    ldap:
+#      enabled: off
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#    enabled-by-default: false
+#  endpoint:
+#    info:
+#      enabled: true
+#    env:
+#      enabled: true
+#    health:
+#      probes:
+#        enabled: true
+#      group:
+#        readiness:
+#          include: "readinessState"
+#        liveness:
+#          include: "livenessState"
+#      enabled: true
+#      show-details: always

@@ -24,9 +24,9 @@ public class AppRestControllerAdvice {
         return USER_ALREADY_EXIST;
     }
 
-    @ExceptionHandler(value = NotFoundException.class)
+    @ExceptionHandler(value = UserNotFoundException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Error wrongCredentialException(final NotFoundException e) {
+    public Error wrongCredentialException(final UserNotFoundException e) {
         return USER_NOT_FOUND;
     }
     @ExceptionHandler(value = Exception.class)
