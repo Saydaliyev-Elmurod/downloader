@@ -13,6 +13,8 @@ import org.example.user.model.request.RequestLogin;
 import org.example.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -26,12 +28,14 @@ public class UserServiceImpl implements UserService, ReactiveUserDetailsService 
 
     @Override
     public Mono<UserResponse> create(final UserRequest request) {
-        return userRepository.save(UserMapper.INSTANCE.toEntity(request)).map(UserMapper.INSTANCE::toResponse);
+        UserEntity entity = UserMapper.INSTANCE.toEntity(request);
+        entity.setPassword(BCrypt.hashpw(request.password(), BCrypt.gensalt()));
+        return userRepository.save(entity).map(UserMapper.INSTANCE::toResponse);
     }
 
     @Override
     public Mono<TokenResponse> login(final RequestLogin request) {
-        return userRepository.findByPhone(request.username())
+        return userRepository.findByPhone(request.phone())
                 .switchIfEmpty(Mono.error(new NotFoundException("User not found")))
                 .flatMap(userEntity -> {
                     String token = jwtService.generateToken(userEntity.getId());
@@ -46,8 +50,6 @@ public class UserServiceImpl implements UserService, ReactiveUserDetailsService 
         entity.setPhone(request.phone());
         return entity;
     }
- 
-
 
 
     @Override

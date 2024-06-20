@@ -4,12 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringWebfluxUserApplication {
-//    static {
-//        BlockHound
-//    }
+public class ApiGateway {
     public static void main(String[] args) {
-        SpringApplication.run(SpringWebfluxUserApplication.class, args);
+        SpringApplication.run(ApiGateway.class, args);
     }
 
 }

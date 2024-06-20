@@ -19,9 +19,9 @@ ENV VERSION=${version} \
 
 LABEL version=${VERSION}
 
-COPY service/location/build/libs/location-$VERSION.jar /location.jar
+COPY services/notification/build/libs/notification-$VERSION.jar /notification.jar
 
 EXPOSE 8115
 EXPOSE 8081
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /location.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /notification.jar" ]

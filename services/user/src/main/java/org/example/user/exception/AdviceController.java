@@ -10,7 +10,7 @@ import static org.example.user.exception.Error.*;
 
 @Log4j2
 @RestControllerAdvice
-public class AppRestControllerAdvice {
+public class AdviceController {
 
     @ExceptionHandler(value = WrongCredentialException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -24,13 +24,13 @@ public class AppRestControllerAdvice {
         return USER_ALREADY_EXIST;
     }
 
-    @ExceptionHandler(value = UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Error wrongCredentialException(final UserNotFoundException e) {
+    @ExceptionHandler(value = NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Error wrongCredentialException(final NotFoundException e) {
         return USER_NOT_FOUND;
     }
     @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Error wrongCredentialExceptionE(final Exception e) {
         log.error(e.getMessage());
         log.error(e.getCause());

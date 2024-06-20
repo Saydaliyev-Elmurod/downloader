@@ -12,24 +12,22 @@ import org.springframework.security.web.server.authentication.AuthenticationWebF
 @EnableWebFluxSecurity
 class SecurityConfig {
 
-  @Bean
-  SecurityWebFilterChain springSecurityFilterChain(
-      ServerHttpSecurity http,
-//      AuthenticationWebFilter authenticationWebFilter,
-      JwtTokenFilter jwtTokenFilter,
-      JwtTokenFilter jwtAuthenticationFilter) {
-    var openPaths = new String[] {"api/users/v1/users/login"};
+    @Bean
+    SecurityWebFilterChain springSecurityFilterChain(
+            ServerHttpSecurity http,
+            JwtTokenFilter jwtTokenFilter,
+            JwtTokenFilter jwtAuthenticationFilter) {
+        var openPaths = new String[]{"api/users/v1/users/login", "api/users/v1/users"};
 
-    return http.authorizeExchange(
-            exchanges ->
-                exchanges.pathMatchers(openPaths).permitAll().anyExchange().authenticated())
-//        .addFilterAt(authenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-        .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
-        .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
-        .csrf(ServerHttpSecurity.CsrfSpec::disable)
-        .cors(ServerHttpSecurity.CorsSpec::disable)
-        .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-        .addFilterAt(jwtTokenFilter, SecurityWebFiltersOrder.AUTHORIZATION)
-        .build();
-  }
+        return http.authorizeExchange(
+                        exchanges ->
+                                exchanges.pathMatchers(openPaths).permitAll().anyExchange().authenticated())
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
+                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .addFilterAt(jwtTokenFilter, SecurityWebFiltersOrder.AUTHORIZATION)
+                .build();
+    }
 }

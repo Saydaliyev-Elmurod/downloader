@@ -1,22 +1,41 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres:16
     container_name: postgres-webflux
-    volumes:
-      - postgres_volume:/var/lib/postgresql/data
+    hostname: postgres
+    image: postgres:15.5
+    restart: always
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: spring-webflux
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      PGPORT: 5430
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_MAX_CONNECTIONS: 200
+      POSTGRES_SHARED_BUFFERS: 512MB
+      POSTGRES_EFFECTIVE_CACHE_SIZE: 2GB
+      POSTGRES_MAINTENANCE_WORK_MEM: 256MB
+      POSTGRES_CHECKPOINT_COMPLETION_TARGET: 0.9
+      POSTGRES_WAL_BUFFERS: 16MB
+      POSTGRES_DEFAULT_STATISTICS_TARGET: 100
+      POSTGRES_RANDOM_PAGE_COST: 1.1
+      POSTGRES_EFFECTIVE_IO_CONCURRENCY: 200
+      POSTGRES_WORK_MEM: 16MB
+      POSTGRES_MIN_WAL_SIZE: 1GB
+      POSTGRES_MAX_WAL_SIZE: 4GB
+      POSTGRES_MAX_WORKERS: 8
+      POSTGRES_MAX_PARALLEL_WORKERS: 4
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
-
+      - "5430:5430"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
   user-service:
     image: user-service:latest
     build:
       context: .
       dockerfile: ./services/user/Dockerfile
+      args:
+        version: ${VERSION}
     ports:
       - "8081:8081"
     environment:
@@ -26,13 +45,15 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PORT: ${DATABASE_PORT}
     volumes:
-      - ./services/user/build/libs/user-0.0.1-SNAPSHOT.jar:/app/user-0.0.1-SNAPSHOT.jar
+      - ./services/user/build/libs/user-${VERSION}.jar:/user.jar
 
   notification-service:
     image: notification-service:latest
     build:
       context: .
       dockerfile: ./services/notification/Dockerfile
+      args:
+        version: ${VERSION}
     ports:
       - "8082:8082"
     environment:
@@ -42,7 +63,7 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_PORT: ${DATABASE_PORT}
     volumes:
-      - ./services/notification/build/libs/notification-0.0.1-SNAPSHOT.jar:/app/notification-0.0.1-SNAPSHOT.jar
+      - ./services/notification/build/libs/notification-${VERSION}.jar:/notification.jar
 
 
 volumes:

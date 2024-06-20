@@ -16,7 +16,7 @@ public record User(
     @Id @Column("id") Integer id,
     @Column("first_name") String firstname,
     @Column("last_name") String lastname,
-    @Column("username") String username,
+    @Column("phone") String username,
     @Column("email") String email,
     @Column("password") String password,
     @Column("is_account_expired") Boolean isAccountExpired,
