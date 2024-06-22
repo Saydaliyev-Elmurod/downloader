@@ -1,20 +1,41 @@
 spring:
   r2dbc:
-    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
   liquibase:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME}
-    user: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    change-log: classpath:db.migration/db.changelog-master.yaml
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
+    user: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
+    change-log: classpath:db/migration/changelog-master.yaml
     liquibase-schema: "users"
     enabled: true
+  batch:
+    jdbc:
+      initialize-schema: always
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: validate # Apply missing Flyway scripts to DB, and validate if JPA and DB model match during startup
+    # https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: users
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        connection:
+          pool_size: 20
   profiles:
     active: dev
   application:
     name: user-service
-
 
 springdoc:
   api-docs:
@@ -24,7 +45,7 @@ springdoc:
     path: /swagger-ui.html
 
 server:
-  port: ${AUTH_SERVICE_PORT:8081}
+  port: ${AUTH_SERVICE_PORT:8082}
 
 
 app:
@@ -34,3 +55,6 @@ app:
       access-expiration: 123
       refresh-expiration: 1
       confirmation-expiration: 1
+logging:
+  level:
+    org.springframework.r2dbc.core: DEBUG
