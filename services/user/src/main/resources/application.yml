@@ -3,6 +3,13 @@ spring:
     url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5675}
+    username: ${RABBIT_USERNAME:spring-webflux}
+    password: ${RABBIT_PASSWORD:spring-webflux}
+    exchange: exchange.direct.webflux
+
   liquibase:
     url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
     user: ${DATABASE_USERNAME:postgres}

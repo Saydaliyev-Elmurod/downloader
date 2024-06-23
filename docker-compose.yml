@@ -1,5 +1,20 @@
 version: '3.8'
 services:
+  rabbitmq:
+    container_name: webflux-rabbitmq
+    image: rabbitmq:3.12.8-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: $RABBIT_USERNAME
+      RABBITMQ_DEFAULT_PASS: $RABBIT_PASSWORD
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit disk_free_limit 10737418240 -rabbit memory_high_watermark 0.98
+      TZ: "Asia/Tashkent"
+    ports:
+      - "5675:5672"
+      - "15675:15672"
+    volumes:
+      - /var/docker-data/rabbitmq_volume:/var/lib/rabbitmq
+      - "./rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins"
   postgres:
     container_name: postgres-webflux
     hostname: postgres

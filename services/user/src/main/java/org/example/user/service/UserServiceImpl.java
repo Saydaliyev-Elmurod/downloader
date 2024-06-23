@@ -43,15 +43,6 @@ public class UserServiceImpl implements UserService, ReactiveUserDetailsService 
                 });
     }
 
-    public UserEntity toEntity(UserRequest request) {
-        UserEntity entity = new UserEntity();
-        entity.setFirstName(request.firstName());
-        entity.setLastName(request.lastName());
-        entity.setPhone(request.phone());
-        return entity;
-    }
-
-
     @Override
     public Mono<UserDetails> findByUsername(final String username) {
         return null;
