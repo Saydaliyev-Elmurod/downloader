@@ -7,6 +7,7 @@ public record UserResponse(
         String lastName,
         String firstName,
         String phone,
+        String email,
         Instant createdDate,
         Instant lastModifiedDate
 ) {

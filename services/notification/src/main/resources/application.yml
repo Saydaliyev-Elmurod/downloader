@@ -3,17 +3,38 @@ spring:
     url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
+    properties:
+      schema: "usernvbs"
   liquibase:
     url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
     user: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
     change-log: classpath:db.migration/db.changelog-master.yaml
-    liquibase-schema: "users"
+    liquibase-schema: "notification"
     enabled: true
+  rabbitmq:
+    host: ${RABBIT_HOST:localhost}
+    port: ${RABBIT_PORT:5675}
+    username: ${RABBIT_USERNAME:spring-webflux}
+    password: ${RABBIT_PASSWORD:spring-webflux}
+    exchange: exchange.direct.webflux
   profiles:
     active: dev
   application:
-    name: my-app
+    name: notification-service
+  mail:
+    host: smtp.mail.ru
+    port: 587
+    username: saydaliyevelmurod01@gmail.ru
+    password: Gmcz6tUCHdF9bzPbKgpf
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true
+
+
 
 
 springdoc:
@@ -24,9 +45,5 @@ springdoc:
     path: /swagger-ui.html
 
 
-application:
-  token:
-    signing:
-      key: 7C7P662RQS6JXHJL3VEK8ZJU0VHU4KZ2JXYJ8LZOCYHV591S97SL32HFZMADCVI2
 server:
-  port: 8081
+  port:

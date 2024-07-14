@@ -1,15 +1,24 @@
 spring:
+  profiles:
+    active: dev
+  application:
+    name: user-service
   r2dbc:
-    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
+    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux?schema=users}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
+    properties:
+      schema: "ucvfcsers"
+  data:
+    redis:
+      host: localhost
+      port: 6379
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5675}
     username: ${RABBIT_USERNAME:spring-webflux}
     password: ${RABBIT_PASSWORD:spring-webflux}
     exchange: exchange.direct.webflux
-
   liquibase:
     url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:spring-webflux}
     user: ${DATABASE_USERNAME:postgres}
@@ -39,10 +48,9 @@ spring:
             non_contextual_creation: true
         connection:
           pool_size: 20
-  profiles:
-    active: dev
-  application:
-    name: user-service
+
+
+
 
 springdoc:
   api-docs:
@@ -52,7 +60,7 @@ springdoc:
     path: /swagger-ui.html
 
 server:
-  port: ${AUTH_SERVICE_PORT:8082}
+  port: ${AUTH_SERVICE_PORT:8081}
 
 
 app:

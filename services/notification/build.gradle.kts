@@ -12,11 +12,17 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     // jwt
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
+
     implementation("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
     implementation("io.jsonwebtoken:jjwt:0.12.5")
 //security
     implementation("org.springframework.boot:spring-boot-starter-security:3.3.0")
+    implementation("org.springframework.boot:spring-boot-starter-mail:3.3.1")
+
+
+
 // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 

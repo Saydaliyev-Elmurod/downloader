@@ -5,6 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import org.example.user.context.security.JwtService;
 import org.example.user.domain.UserEntity;
 import org.example.user.exception.NotFoundException;
+import org.example.user.jms.MessagePublisher;
+import org.example.user.jms.model.SendEmailReply;
 import org.example.user.mapper.UserMapper;
 import org.example.user.model.TokenResponse;
 import org.example.user.model.UserRequest;
@@ -13,8 +15,6 @@ import org.example.user.model.request.RequestLogin;
 import org.example.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -24,13 +24,15 @@ import reactor.core.publisher.Mono;
 public class UserServiceImpl implements UserService, ReactiveUserDetailsService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final MessagePublisher messagePublisher;
 
 
     @Override
     public Mono<UserResponse> create(final UserRequest request) {
         UserEntity entity = UserMapper.INSTANCE.toEntity(request);
-        entity.setPassword(BCrypt.hashpw(request.password(), BCrypt.gensalt()));
-        return userRepository.save(entity).map(UserMapper.INSTANCE::toResponse);
+        Mono<UserResponse> userResponseMono = userRepository.save(entity).map(UserMapper.INSTANCE::toResponse);
+        messagePublisher.publish(new SendEmailReply(request.email()));
+        return userResponseMono;
     }
 
     @Override
