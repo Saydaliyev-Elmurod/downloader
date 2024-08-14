@@ -9,22 +9,24 @@ services:
       RABBITMQ_DEFAULT_PASS: $RABBIT_PASSWORD
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit disk_free_limit 10737418240 -rabbit memory_high_watermark 0.98
       TZ: "Asia/Tashkent"
+      RABBITMQ_NODE_PORT: 5670
     ports:
-      - "5675:5672"
-      - "15675:15672"
+      - "5670:5670"
+      - "15670:15672"
     volumes:
       - /var/docker-data/rabbitmq_volume:/var/lib/rabbitmq
       - "./rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins"
-  postgres:
-    container_name: postgres-webflux
+
+  postgres-test:
+    container_name: postgres-test
     hostname: postgres
-    image: postgres:15.5
+    image: postgres:16.3
     restart: always
     environment:
-      POSTGRES_DB: spring-webflux
+      POSTGRES_DB: postgres-test
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
-      PGPORT: 5430
+      PGPORT: 5436
       POSTGRES_HOST_AUTH_METHOD: scram-sha-256
       POSTGRES_MAX_CONNECTIONS: 200
       POSTGRES_SHARED_BUFFERS: 512MB
@@ -41,9 +43,10 @@ services:
       POSTGRES_MAX_WORKERS: 8
       POSTGRES_MAX_PARALLEL_WORKERS: 4
     ports:
-      - "5430:5430"
+      - "5436:5436"
     volumes:
       - postgres_volume:/var/lib/postgresql/data/
+
   redis:
     image: redis:latest
     container_name: redis

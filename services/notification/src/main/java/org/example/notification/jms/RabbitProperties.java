@@ -8,6 +8,7 @@ public record RabbitProperties(
     String host, Integer port, String username, String password, String exchange) {
 
   public RabbitProperties {
+    System.out.println(exchange);
     Assert.hasText(host, "RabbitMQ host cannot be null or blank");
     Assert.notNull(port, "RabbitMQ port cannot be null");
     Assert.hasText(username, "RabbitMQ username cannot be null or blank");

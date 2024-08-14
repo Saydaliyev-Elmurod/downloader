@@ -35,7 +35,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER)
 @SpringBootApplication
-//@ComponentScan("org.example.user")
+@ComponentScan("org.example")
 public class UserApplication {
 
     public static void main(String[] args) {

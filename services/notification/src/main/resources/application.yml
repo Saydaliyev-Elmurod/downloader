@@ -1,12 +1,12 @@
 spring:
   r2dbc:
-    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
+    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
     properties:
-      schema: "usernvbs"
+      schema: "notification"
   liquibase:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost:5430}/${DATABASE_NAME:postgres}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
     user: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
     change-log: classpath:db.migration/db.changelog-master.yaml
@@ -23,9 +23,9 @@ spring:
   application:
     name: notification-service
   mail:
-    host: smtp.mail.ru
+    host: smtp.mail.com
     port: 587
-    username: saydaliyevelmurod01@gmail.ru
+    username: saydaliyevelmurod01@gmail.com
     password: Gmcz6tUCHdF9bzPbKgpf
     properties:
       mail:
@@ -46,4 +46,8 @@ springdoc:
 
 
 server:
-  port:
+  port: 8082
+logging:
+  level:
+    web: debug
+

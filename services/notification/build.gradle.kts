@@ -3,8 +3,15 @@ plugins {
     alias(libs.plugins.spring.dependency.management)
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.3")
+    }
+}
+
 dependencies {
     implementation(project(":services:common"))
+    implementation(project(":services:jms"))
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 //mapstruct
@@ -12,7 +19,11 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     // jwt
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
+//    implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("io.projectreactor.rabbitmq:reactor-rabbitmq:1.5.6")
+//    implementation(libs.rabbitmq.client)
+//    implementation("org.springframework.amqp:spring-amqp:3.1.5")
+
 
     implementation("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
@@ -33,7 +44,6 @@ dependencies {
 //    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")
     implementation("org.postgresql:postgresql")
-    runtimeOnly("io.projectreactor.tools:blockhound:1.0.9.RELEASE")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
