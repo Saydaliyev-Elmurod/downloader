@@ -1,14 +1,4 @@
-plugins {
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.3")
-    }
-}
-
+apply(plugin = "org.springframework.boot")
 dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:jms"))
@@ -44,7 +34,7 @@ dependencies {
 //    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")
     implementation("org.postgresql:postgresql")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+//    developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

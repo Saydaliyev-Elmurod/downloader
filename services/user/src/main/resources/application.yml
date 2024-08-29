@@ -1,22 +1,26 @@
 spring:
   application:
     name: user-service
+
   r2dbc:
     url: r2dbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test?schema=users}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
     properties:
       schema: users
+
   data:
     redis:
       host: localhost
       port: 6379
+
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5672}
     username: ${RABBIT_USERNAME:M1msoftR@bb!t}
     password: ${RABBIT_PASSWORD:M1msoftR@bb!t}
     exchange: exchange.direct.lamenu
+
   liquibase:
     url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
     user: ${DATABASE_USERNAME:postgres}
@@ -24,12 +28,15 @@ spring:
     change-log: classpath:db/migration/changelog-master.yaml
     liquibase-schema: "users"
     enabled: true
+    
+
   batch:
     jdbc:
       initialize-schema: always
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: validate # Apply missing Flyway scripts to DB, and validate if JPA and DB model match during startup
     # https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
@@ -58,7 +65,7 @@ springdoc:
     path: /swagger-ui.html
 
 server:
-  port: ${AUTH_SERVICE_PORT:8081}
+  port: ${AUTH_SERVICE_PORT:8080}
 
 
 app:

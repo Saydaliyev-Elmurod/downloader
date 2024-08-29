@@ -8,5 +8,7 @@ public interface UserRepository extends ReactiveCrudRepository<UserEntity, Integ
 
     Mono<UserEntity> findById(int id);
 
+    Mono<UserEntity> findByEmail(final String email);
+
     Mono<UserEntity> findByPhone(String phone);
 }

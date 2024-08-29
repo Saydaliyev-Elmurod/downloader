@@ -1,11 +1,12 @@
 package org.example.user.service;
 
 import lombok.AllArgsConstructor;
+//import lombok.extern.log4j.Log4j2;
 import lombok.extern.log4j.Log4j2;
 import org.example.jms.JmsPublisher;
 import org.example.user.context.security.JwtService;
-import org.example.user.domain.UserEntity;
-import org.example.user.exception.NotFoundException;
+import org.example.common.exception.exp.NotFoundException;
+import org.example.common.exception.exp.UserAlreadyExistException;
 import org.example.user.jms.model.SendEmailReply;
 import org.example.user.mapper.UserMapper;
 import org.example.user.model.TokenResponse;
@@ -27,19 +28,19 @@ public class UserServiceImpl implements UserService, ReactiveUserDetailsService 
     //    private final RabbitMQSender rabbitMQSender;
     private final JmsPublisher messagePublisher;
 
-
     @Override
     public Mono<UserResponse> create(final UserRequest request) {
-        UserEntity entity = UserMapper.INSTANCE.toEntity(request);
-
-        return userRepository.save(entity)
-                .map(UserMapper.INSTANCE::toResponse)
-                .flatMap(userResponse ->
-                        messagePublisher.publish(new SendEmailReply(request.email()))
-                                .thenReturn(userResponse).log()
+        return userRepository.findByEmail(request.email())
+                .flatMap(user -> Mono.error(new UserAlreadyExistException("User already exist")))
+                .switchIfEmpty(
+                        userRepository.save(UserMapper.INSTANCE.toEntity(request))
+                                .map(UserMapper.INSTANCE::toResponse)
+                                .flatMap(userResponse ->
+                                        messagePublisher.publish(new SendEmailReply(request.email()))
+                                                .thenReturn(userResponse)
+                                )
                 )
-                .doOnSuccess(userResponse -> log.info("User created and email sent successfully"))
-                .doOnError(error -> log.error("Error occurred while creating user or sending email", error));
+                .cast(UserResponse.class);
     }
 
 

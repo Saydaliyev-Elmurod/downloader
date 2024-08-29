@@ -1,4 +1,4 @@
-package org.example.common.model;
+package org.example.common;
 
 import java.time.Instant;
 
@@ -7,6 +7,7 @@ public record UserResponse(
         String lastName,
         String firstName,
         String phone,
+        String role,
         Instant createdDate,
         Instant lastModifiedDate
 ) {

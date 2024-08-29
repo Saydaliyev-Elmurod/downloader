@@ -1,8 +1,7 @@
 plugins {
-    alias(libs.plugins.spring.boot)
-    alias(libs.plugins.spring.dependency.management)
     java
 }
+apply(plugin = "org.springframework.boot")
 extra["springCloudVersion"] = "2023.0.2"
 
 dependencies {
@@ -16,9 +15,9 @@ dependencies {
     testImplementation ("io.projectreactor:reactor-test")
     testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 }
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-    }
-}
+//dependencyManagement {
+//    imports {
+//        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+//    }
+//}
 

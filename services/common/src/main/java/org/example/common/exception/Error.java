@@ -1,12 +1,9 @@
-package org.example.user.exception;
+package org.example.common.exception;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
+
 
 import java.io.Serializable;
 
-@Getter
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Error implements Serializable {
 
     WRONG_CREDENTIALS(1000, "Wrong credential!"),
@@ -15,6 +12,23 @@ public enum Error implements Serializable {
     USER_NOT_FOUND(1003, "User not found");
 
     private int code;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(final int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(final String message) {
+        this.message = message;
+    }
+
     private String message;
 
     Error(int code, String message) {

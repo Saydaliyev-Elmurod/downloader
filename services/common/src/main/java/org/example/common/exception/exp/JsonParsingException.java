@@ -1,4 +1,4 @@
-package org.example.user.exception;
+package org.example.common.exception.exp;
 
 public class JsonParsingException extends RuntimeException {
 
