@@ -1,10 +1,12 @@
 spring:
+
   r2dbc:
     url: r2dbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
     properties:
       schema: "notification"
+
   liquibase:
     url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
     user: ${DATABASE_USERNAME:postgres}
@@ -12,16 +14,17 @@ spring:
     change-log: classpath:db.migration/db.changelog-master.yaml
     liquibase-schema: "notification"
     enabled: true
+
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
-    port: ${RABBIT_PORT:5675}
-    username: ${RABBIT_USERNAME:spring-webflux}
-    password: ${RABBIT_PASSWORD:spring-webflux}
-    exchange: exchange.direct.webflux
-  profiles:
-    active: dev
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:M1msoftR@bb!t}
+    password: ${RABBIT_PASSWORD:M1msoftR@bb!t}
+    exchange: exchange.direct.lamenu
+
   application:
     name: notification-service
+
   mail:
     host: smtp.mail.com
     port: 587
@@ -47,7 +50,8 @@ springdoc:
 
 server:
   port: 8082
+
 logging:
   level:
-    web: debug
+    org.example: info
 

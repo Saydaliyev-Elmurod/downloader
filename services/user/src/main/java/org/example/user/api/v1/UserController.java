@@ -1,7 +1,7 @@
 package org.example.user.api.v1;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.example.user.model.TokenResponse;
 import org.example.user.model.UserRequest;
 import org.example.user.model.UserResponse;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("api/users/v1/users")
-@Slf4j
+@Log4j2
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;

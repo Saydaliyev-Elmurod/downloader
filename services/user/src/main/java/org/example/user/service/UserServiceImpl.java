@@ -1,12 +1,12 @@
 package org.example.user.service;
 
 import lombok.AllArgsConstructor;
-//import lombok.extern.log4j.Log4j2;
 import lombok.extern.log4j.Log4j2;
 import org.example.jms.JmsPublisher;
 import org.example.user.context.security.JwtService;
 import org.example.common.exception.exp.NotFoundException;
 import org.example.common.exception.exp.UserAlreadyExistException;
+import org.example.user.domain.UserEntity;
 import org.example.user.jms.model.SendEmailReply;
 import org.example.user.mapper.UserMapper;
 import org.example.user.model.TokenResponse;
@@ -25,20 +25,23 @@ import reactor.core.publisher.Mono;
 public class UserServiceImpl implements UserService, ReactiveUserDetailsService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    //    private final RabbitMQSender rabbitMQSender;
     private final JmsPublisher messagePublisher;
 
     @Override
     public Mono<UserResponse> create(final UserRequest request) {
         return userRepository.findByEmail(request.email())
-                .flatMap(user -> Mono.error(new UserAlreadyExistException("User already exist")))
+                .flatMap(user -> Mono.error(new UserAlreadyExistException("User already exists")))
                 .switchIfEmpty(
-                        userRepository.save(UserMapper.INSTANCE.toEntity(request))
-                                .map(UserMapper.INSTANCE::toResponse)
-                                .flatMap(userResponse ->
-                                        messagePublisher.publish(new SendEmailReply(request.email()))
-                                                .thenReturn(userResponse)
-                                )
+                        Mono.defer(() -> {
+                            UserEntity entity = UserMapper.INSTANCE.toEntity(request);
+                            entity.setRole("USER");
+                            return userRepository.save(entity)
+                                    .map(UserMapper.INSTANCE::toResponse)
+                                    .flatMap(userResponse ->
+                                            messagePublisher.publish(new SendEmailReply(request.email()))
+                                                    .thenReturn(userResponse)
+                                    );
+                        })
                 )
                 .cast(UserResponse.class);
     }

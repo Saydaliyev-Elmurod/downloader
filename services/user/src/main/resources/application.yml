@@ -75,6 +75,7 @@ app:
       access-expiration: 123
       refresh-expiration: 1
       confirmation-expiration: 1
+
 logging:
   level:
-    org.example: debug
+    org.example: info

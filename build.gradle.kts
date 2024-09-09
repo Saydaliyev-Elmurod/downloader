@@ -1,7 +1,8 @@
 plugins {
-    id("org.springframework.boot") version "3.1.0" apply false
+    id("org.springframework.boot") version "3.1.4" apply false
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     java
+    idea
 }
 
 allprojects {
@@ -16,7 +17,7 @@ allprojects {
     dependencyManagement {
         imports {
             // https://github.com/spring-projects/spring-boot/releases
-            mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.0")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.4")
 
             // https://spring.io/projects/spring-cloud
             // https://github.com/spring-cloud/spring-cloud-release/tags
@@ -42,14 +43,9 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "java")
+    apply(plugin = "java-library")
+    apply(plugin = "idea")
 
-
-    dependencies{
-        annotationProcessor("org.immutables:value")
-        compileOnly("org.immutables:builder")
-        compileOnly("org.immutables:value-annotations")
-    }
     configurations {
         all {
             exclude("org.springframework.boot", "spring-boot-starter-logging")
@@ -57,5 +53,17 @@ subprojects {
             // Can't exclude because of this: https://github.com/testcontainers/testcontainers-java/issues/970
             // exclude("junit", "junit")
         }
+    }
+
+    dependencies {
+        annotationProcessor("org.immutables:value")
+        compileOnly("org.immutables:builder")
+        compileOnly("org.immutables:value-annotations")
+
+        // https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#configuration-metadata-annotation-processor
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+        // https://mapstruct.org/documentation/installation/
+        annotationProcessor("org.mapstruct:mapstruct-processor:${rootProject.extra.get("mapStructVersion")}")
     }
 }
