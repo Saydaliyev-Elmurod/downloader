@@ -1,4 +1,4 @@
-package org.example.common;
+package org.example.common.model;
 
 public record UserRequest(
         String lastName,

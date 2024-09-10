@@ -22,12 +22,10 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")
     implementation("org.postgresql:postgresql")
 
-//    developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    implementation("org.apache.logging.log4j:log4j-api")
-    implementation("org.apache.logging.log4j:log4j-core")
-    implementation("org.apache.logging.log4j:log4j-web")
+    implementation("org.springframework.boot:spring-boot-starter-log4j2")
+
 }

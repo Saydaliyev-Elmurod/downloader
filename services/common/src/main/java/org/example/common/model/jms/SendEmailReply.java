@@ -1,4 +1,4 @@
-package org.example.user.jms.model;
+package org.example.common.model.jms;
 
 public record SendEmailReply(
         String email
