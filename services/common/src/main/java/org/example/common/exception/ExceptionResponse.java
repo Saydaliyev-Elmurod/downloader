@@ -33,7 +33,7 @@ public record ExceptionResponse(
         }
 
         if (e instanceof AlreadyExistsException) {
-            return ErrorCodes.ALREADY_EXISTS_ERROR_CODE;
+            return ((AlreadyExistsException) e).getCode();
         }
 
         if (e instanceof NoSuchElementException) {

@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,11 +21,12 @@ import java.time.Instant;
 @Table(name = Constants.TABLE_USER, schema = Constants.SCHEMA)
 public class UserEntity {
     @Id
-    private Integer id;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
+    private Boolean isVerified;
     private String password;
     private String role;
     @CreatedDate

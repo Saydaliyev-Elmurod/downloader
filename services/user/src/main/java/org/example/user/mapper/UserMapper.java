@@ -1,8 +1,8 @@
 package org.example.user.mapper;
 
+import org.example.common.model.UserResponse;
 import org.example.user.domain.UserEntity;
 import org.example.user.model.UserRequest;
-import org.example.user.model.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

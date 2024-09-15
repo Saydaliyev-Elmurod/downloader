@@ -6,16 +6,21 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
     <changeSet id="create-tables" author="elmurod">
         <sql>
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            CREATE
+            EXTENSION IF NOT EXISTS "uuid-ossp";
 
             CREATE SCHEMA IF NOT EXISTS "users";
 
             CREATE TABLE IF NOT EXISTS "users"."user"
             (
                 id
-                serial
-                NOT
-                NULL,
+                UUID
+
+                default
+                uuid_generate_v4
+            (
+            ) NOT
+                NULL ,
                 first_name
                 TEXT,
                 last_name
@@ -40,7 +45,7 @@
                 CURRENT_TIMESTAMP,
                 version
                 BIGINT
-            );
+                );
         </sql>
     </changeSet>
 </databaseChangeLog>

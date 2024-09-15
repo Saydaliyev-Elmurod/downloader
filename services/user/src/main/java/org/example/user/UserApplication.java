@@ -23,13 +23,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @OpenAPIDefinition(
         info =
         @Info(
-                title = "Lamenu Order Service v1.0",
+                title = "Test Service v1.0",
                 version = "1.0",
-                description = "Lamenu Order Service v1.0 Documentation"),
+                description = "Test service Service v1.0 Documentation"),
         security = {@SecurityRequirement(name = "bearerAuth")},
         servers = {
-                @Server(url = "https://api-dev.lamenu.uz/", description = "Default Server URL"),
-                @Server(url = "http://localhost:8103/", description = "Local Server URL")
+                @Server(url = "http://localhost:8080/", description = "Local Server URL")
         })
 @SecurityScheme(
         name = "bearerAuth",

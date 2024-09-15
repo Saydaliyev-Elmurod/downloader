@@ -1,26 +1,14 @@
 package org.example.common.exception.exp;
 
 public class AlreadyExistsException extends RuntimeException {
+    private final Integer code;
 
-  public AlreadyExistsException() {}
+    public AlreadyExistsException(final Integer code, String message) {
+        super(message);
+        this.code = code;
+    }
 
-  public AlreadyExistsException(final String message) {
-    super(message);
-  }
-
-  public AlreadyExistsException(final String message, final Throwable cause) {
-    super(message, cause);
-  }
-
-  public AlreadyExistsException(final Throwable cause) {
-    super(cause);
-  }
-
-  public AlreadyExistsException(
-      final String message,
-      final Throwable cause,
-      final boolean enableSuppression,
-      final boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
+    public Integer getCode() {
+        return code;
+    }
 }

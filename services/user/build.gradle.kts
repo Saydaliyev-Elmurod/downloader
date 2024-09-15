@@ -6,6 +6,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    //
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
     implementation("org.liquibase:liquibase-core")
     // lombok and mapstruct
     compileOnly("org.projectlombok:lombok")

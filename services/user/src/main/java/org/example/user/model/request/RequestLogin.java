@@ -1,3 +1,3 @@
 package org.example.user.model.request;
 
-public record RequestLogin(String phone, String password) {}
+public record RequestLogin(String email, String password) {}

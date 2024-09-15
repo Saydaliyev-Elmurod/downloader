@@ -7,11 +7,3 @@ include(
         "services:jms",
         "services:common",
 )
-
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("libs.versions.toml"))
-        }
-    }
-}
