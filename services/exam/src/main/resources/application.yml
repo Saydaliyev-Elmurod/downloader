@@ -15,8 +15,6 @@ spring:
       port: 6379
       password: M1msoFt
 
-
-
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5672}
@@ -31,6 +29,32 @@ spring:
     change-log: classpath:db/migration/changelog-master.yaml
     liquibase-schema: "users"
     enabled: true
+
+
+  batch:
+    jdbc:
+      initialize-schema: always
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate # Apply missing Flyway scripts to DB, and validate if JPA and DB model match during startup
+    # https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: users
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        connection:
+          pool_size: 20
+
 
 
 
@@ -53,8 +77,4 @@ app:
 logging:
   level:
     org.example: info
-    org.springframework.security: info
-
-
-
-
+    org.springframework.security: debug

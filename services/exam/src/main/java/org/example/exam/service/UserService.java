@@ -1,4 +1,4 @@
-package org.example.user.service;
+package org.example.exam.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -7,22 +7,22 @@ import org.example.common.exception.exp.AlreadyExistsException;
 import org.example.common.exception.exp.NotFoundException;
 import org.example.common.model.UserResponse;
 import org.example.common.model.jms.SendEmailReply;
+import org.example.exam.context.security.JwtService;
+import org.example.exam.domain.UserEntity;
+import org.example.exam.mapper.UserMapper;
+import org.example.exam.model.TokenResponse;
+import org.example.exam.model.request.CreateUserRequest;
+import org.example.exam.model.request.RequestLogin;
+import org.example.exam.model.request.UserAssignPasswordRequest;
+import org.example.exam.repository.UserRepository;
 import org.example.jms.JmsPublisher;
-import org.example.user.context.security.JwtService;
-import org.example.user.domain.UserEntity;
-import org.example.user.mapper.UserMapper;
-import org.example.user.model.TokenResponse;
-import org.example.user.model.request.CreateUserRequest;
-import org.example.user.model.request.RequestLogin;
-import org.example.user.model.request.UserAssignPasswordRequest;
-import org.example.user.repository.UserRepository;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -34,6 +34,7 @@ public class UserService {
     private final ReactiveRedisTemplate<String, UserResponse> userAuthRedisTemplate;
 
     public Mono<UserResponse> create(final CreateUserRequest request) {
+
         String email = request.email();
         // Redis'dan foydalanuvchi ma'lumotlarini olish
         return userAuthRedisTemplate.opsForValue().get(email)
@@ -67,7 +68,7 @@ public class UserService {
 
 
     public Mono<TokenResponse> login(final RequestLogin request) {
-        return userRepository.findByEmail(request.email())
+        return userRepository.findByPhone(request.email())
                 .switchIfEmpty(Mono.error(new NotFoundException("User not found")))
                 .flatMap(userEntity -> {
                     String token = jwtService.generateToken(userEntity.getId());

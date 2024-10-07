@@ -1,4 +1,4 @@
-package org.example.user.context.redis;
+package org.example.exam.context.redis;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

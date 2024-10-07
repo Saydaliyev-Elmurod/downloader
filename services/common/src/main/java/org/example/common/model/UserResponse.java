@@ -1,8 +1,12 @@
 package org.example.common.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public record UserResponse(
         UUID id,
         String lastName,
@@ -13,5 +17,5 @@ public record UserResponse(
         Boolean isVerified,
         Instant createdDate,
         Instant lastModifiedDate
-) {
+) implements Serializable {
 }

@@ -1,10 +1,9 @@
-package org.example.user.context.security;
+package org.example.exam.context.security;
 
 import jakarta.annotation.Nonnull;
-import org.example.user.mapper.UserMapper;
-import org.example.user.model.UserPrincipal;
-import org.example.user.repository.UserRepository;
-import org.springframework.http.HttpStatus;
+import org.example.exam.mapper.UserMapper;
+import org.example.exam.model.UserPrincipal;
+import org.example.exam.repository.UserRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -17,7 +16,6 @@ import reactor.util.context.Context;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Component
 
@@ -33,20 +31,14 @@ public class JwtTokenFilter implements WebFilter {
 
     @Override
     @Nonnull
-    public Mono<Void> filter(@Nonnull ServerWebExchange exchange, @Nonnull WebFilterChain chain) {
+    public Mono<Void> filter(@Nonnull ServerWebExchange exchange,@Nonnull WebFilterChain chain) {
         String token = jwtAccessToken(exchange);
 
         if (token == null) {
-            return chain.filter(exchange); // Token mavjud bo'lmasa, davom ettiramiz
+            return chain.filter(exchange);
         }
 
-        UUID userId;
-        try {
-            userId = UUID.fromString(jwtService.extractUsername(token)); // Token ichidagi userni olish
-        } catch (Exception e) {
-            return unauthorizedResponse(exchange); // Noto'g'ri yoki eskirgan token
-        }
-
+        Integer userId = Integer.valueOf(jwtService.extractUsername(token));
         return userRepository.findById(userId)
                 .flatMap(userEntity -> {
                     if (userEntity != null) {
@@ -60,18 +52,11 @@ public class JwtTokenFilter implements WebFilter {
                         Context context = ReactiveSecurityContextHolder.withAuthentication(auth);
                         return chain.filter(exchange).contextWrite(context);
                     } else {
-                        // User topilmasa, davom etamiz
+                        // If user is not found, proceed without authentication
                         return chain.filter(exchange);
                     }
                 })
-                .switchIfEmpty(chain.filter(exchange)) // User topilmasa, hech qanday autentifikatsiya qilmaslik
-                .onErrorResume(e -> unauthorizedResponse(exchange)); // JWT xatolarini ushlash
-    }
-
-    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange) {
-        // Javobga 401 Unauthorized statusini qo'yish
-        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-        return exchange.getResponse().setComplete();
+                .switchIfEmpty(chain.filter(exchange));
     }
 
 

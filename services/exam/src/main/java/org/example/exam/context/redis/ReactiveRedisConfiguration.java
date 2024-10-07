@@ -1,4 +1,4 @@
-package org.example.user.context.redis;
+package org.example.exam.context.redis;
 
 import org.example.common.model.UserResponse;
 import org.springframework.context.annotation.Bean;

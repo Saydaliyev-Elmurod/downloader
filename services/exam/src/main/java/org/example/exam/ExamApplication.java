@@ -1,4 +1,4 @@
-package org.example.user;
+package org.example.exam;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
@@ -9,13 +9,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @ConfigurationPropertiesScan
@@ -40,10 +37,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         in = SecuritySchemeIn.HEADER)
 @SpringBootApplication
 @ComponentScan("org.example")
-public class UserApplication {
+public class ExamApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(UserApplication.class, args);
+        SpringApplication.run(ExamApplication.class, args);
     }
 
 }
