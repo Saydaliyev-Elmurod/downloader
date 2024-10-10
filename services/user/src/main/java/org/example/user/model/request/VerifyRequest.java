@@ -5,14 +5,16 @@ import org.springframework.util.Assert;
 
 import java.util.UUID;
 
-public record UserAssignPasswordRequest(
+public record VerifyRequest(
         UUID userId,
-        String password
+        String email,
+        Integer code,
+        UUID uuid
 ) {
 
     @Builder.Constructor
-    public UserAssignPasswordRequest {
+    public VerifyRequest {
         Assert.notNull(userId, "user required");
-        Assert.notNull(password, "password required");
+        Assert.notNull(code, "code required");
     }
 }

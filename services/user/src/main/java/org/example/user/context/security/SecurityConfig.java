@@ -18,7 +18,8 @@ class SecurityConfig {
             JwtTokenFilter jwtTokenFilter,
             JwtTokenFilter jwtAuthenticationFilter) {
         var openPaths = new String[]{
-                "/api/users/v1/users/login", "/api/users/v1/users",
+                "/api/users/v1/users/login",
+                "/api/users/v1/users/verify","/api/users/v1/users",
                 "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
                 "/webjars/**","/swagger-resources/**","/v3/api-docs"
         };

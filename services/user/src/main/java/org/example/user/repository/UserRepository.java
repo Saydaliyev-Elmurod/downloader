@@ -12,5 +12,5 @@ public interface UserRepository extends ReactiveCrudRepository<UserEntity, Integ
 
     Mono<UserEntity> findByEmail(final String email);
 
-    Mono<UserEntity> findByPhone(final String phone);
+    Mono<UserEntity> findByIdAndDeletedFalse(final UUID id);
 }

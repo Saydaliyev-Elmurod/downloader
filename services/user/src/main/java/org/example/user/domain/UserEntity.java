@@ -29,12 +29,13 @@ public class UserEntity {
     private Boolean isVerified;
     private String password;
     private String role;
+    private Boolean deleted;
     @CreatedDate
-    Instant createdDate;
+    private Instant createdDate;
     @LastModifiedDate
-    Instant lastModifiedDate;
+    private Instant lastModifiedDate;
     @Version
-    Integer version;
+    private Integer version;
 
     @Override
     public String toString() {

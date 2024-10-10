@@ -6,7 +6,8 @@ import org.example.common.model.UserResponse;
 import org.example.user.model.TokenResponse;
 import org.example.user.model.request.CreateUserRequest;
 import org.example.user.model.request.RequestLogin;
-import org.example.user.model.request.UserAssignPasswordRequest;
+import org.example.user.model.request.VerifyRequest;
+import org.example.user.model.response.SignUpResponse;
 import org.example.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -22,15 +23,15 @@ public class UserController {
 
 
     @PostMapping
-    public Mono<UserResponse> create(@RequestBody CreateUserRequest request) {
+    public Mono<SignUpResponse> create(@RequestBody CreateUserRequest request) {
         log.debug("{}", request);
         return userService.create(request);
     }
 
-    @PostMapping("/password")
-    public Mono<UserResponse> create(@RequestBody UserAssignPasswordRequest request) {
+    @PostMapping("/verify")
+    public Mono<UserResponse> create(@RequestBody VerifyRequest request) {
         log.debug("Assign User password {}", request);
-        return userService.assignPassword(request);
+        return userService.verify(request);
     }
 
     @GetMapping("/{id}")

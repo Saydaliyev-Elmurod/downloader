@@ -14,8 +14,6 @@ public record UserResponse(
         String phone,
         String email,
         String role,
-        Boolean isVerified,
-        Instant createdDate,
-        Instant lastModifiedDate
+        Boolean isVerified
 ) implements Serializable {
 }

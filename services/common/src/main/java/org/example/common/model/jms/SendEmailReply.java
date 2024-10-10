@@ -1,6 +1,8 @@
 package org.example.common.model.jms;
 
 public record SendEmailReply(
-        String email
+        String email,
+        Integer code
+
 ) {
 }
