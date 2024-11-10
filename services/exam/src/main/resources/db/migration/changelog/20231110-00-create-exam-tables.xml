@@ -6,9 +6,13 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
     <changeSet id="create-tables" author="elmurod">
         <sql>
-            CREATE
-            EXTENSION IF NOT EXISTS "uuid-ossp";
-            CREATE SCHEMA IF NOT EXISTS "exam";
+            CREATE TABLE exam.exam
+            (
+                id                 UUID               default uuid_generate_v4() NOT NULL,
+                deleted            boolean            default false,
+                created_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                last_modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
         </sql>
     </changeSet>
 </databaseChangeLog>

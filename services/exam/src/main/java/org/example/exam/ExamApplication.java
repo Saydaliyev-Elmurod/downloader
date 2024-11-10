@@ -1,5 +1,6 @@
 package org.example.exam;
 
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -9,24 +10,29 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
+//@EnableJpaRepositories
+//@EnableCaching
+//@EnableJpaAuditing
+@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
 @ConfigurationPropertiesScan
-@EnableR2dbcAuditing
-@EnableR2dbcRepositories
+@ComponentScan("org.example")
 @OpenAPIDefinition(
         info =
         @Info(
-                title = "Test Service v1.0",
+                title = "Lamenu Bot Service v1.0",
                 version = "1.0",
-                description = "Test service Service v1.0 Documentation"),
+                description = "Lamenu Bot Service v1.0 Documentation"),
         security = {@SecurityRequirement(name = "bearerAuth")},
         servers = {
-                @Server(url = "http://localhost:8080/", description = "Local Server URL")
+                @Server(url = "https://api-dev.lamenu.uz/", description = "Default Server URL"),
+                @Server(url = "http://localhost:8119/", description = "Local Server URL")
         })
 @SecurityScheme(
         name = "bearerAuth",
@@ -35,8 +41,6 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER)
-@SpringBootApplication
-@ComponentScan("org.example")
 public class ExamApplication {
 
     public static void main(String[] args) {

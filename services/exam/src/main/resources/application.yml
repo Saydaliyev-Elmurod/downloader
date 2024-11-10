@@ -1,19 +1,50 @@
+server:
+  port: 8119
+  forward-headers-strategy: framework
+  servlet:
+    contextPath: /
+  error:
+    whitelabel:
+      enabled: false
+
 spring:
   application:
-    name: user-service
+    name: webbot-service
 
-  r2dbc:
-    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test?schema=users}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:secret}
+  batch:
+    jdbc:
+      initialize-schema: always
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:secret}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+      open-in-view: false
     properties:
-      schema: users
+      hibernate:
+        default_schema: exam
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        jdbc:
+          lob:
+            non_contextual_creation: true
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: M1msoFt
+  liquibase:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
+    user: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:secret}
+    change-log: classpath:db/migration/changelog-master.yaml
+    liquibase-schema: exam
+    enabled: true
 
   rabbitmq:
     host: ${RABBIT_HOST:localhost}
@@ -22,59 +53,30 @@ spring:
     password: ${RABBIT_PASSWORD:M1msoftR@bb!t}
     exchange: exchange.direct.lamenu
 
-  liquibase:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test}
-    user: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:secret}
-    change-log: classpath:db/migration/changelog-master.yaml
-    liquibase-schema: "users"
-    enabled: true
+  codec:
+    max-in-memory-size: 16MB
+
+  servlet:
+    multipart:
+      max-file-size: 16MB
 
 
-  batch:
-    jdbc:
-      initialize-schema: always
-
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: validate # Apply missing Flyway scripts to DB, and validate if JPA and DB model match during startup
-    # https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
-    open-in-view: false
-    properties:
-      hibernate:
-        default_schema: users
-        enable_lazy_load_no_trans: true
-        event:
-          merge:
-            entity_copy_observer: allow
-        jdbc:
-          lob:
-            non_contextual_creation: true
-        connection:
-          pool_size: 20
+#  cache:
+#    type: redis
 
 
 
 
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    path: /api/exam/v3/api-docs
   swagger-ui:
-    path: /swagger-ui/index.html
+    path: /swagger-ui.html
 
 
-server:
-  port: ${AUTH_SERVICE_PORT:8080}
+info:
+  app:
+    name: ${spring.application.name}
+    version: "@application.version@"
+    description: "@application.description@"
 
-app:
-  security:
-    jwt:
-      secret-key: 7C7P662RQS6JXHJL3VEK8ZJU0VHU4KZ2JXYJ8LZOCYHV591S97SL32HFZMADCVI2
-
-
-logging:
-  level:
-    org.example: info
-    org.springframework.security: debug
