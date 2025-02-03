@@ -66,4 +66,21 @@ subprojects {
         // https://mapstruct.org/documentation/installation/
         annotationProcessor("org.mapstruct:mapstruct-processor:${rootProject.extra.get("mapStructVersion")}")
     }
+
+    tasks.test {
+        failFast = false
+        enableAssertions = true
+
+        // Enable JUnit 5 (Gradle 4.6+).
+        useJUnitPlatform()
+
+        testLogging {
+            events("PASSED", "STARTED", "FAILED", "SKIPPED")
+            // Set to true if you want to see output from tests
+            showStandardStreams = false
+            setExceptionFormat("FULL")
+        }
+
+        systemProperty("io.netty.leakDetectionLevel", "paranoid")
+    }
 }

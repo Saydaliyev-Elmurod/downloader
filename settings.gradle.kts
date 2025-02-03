@@ -2,9 +2,10 @@ rootProject.name = "microservice-webflux"
 
 include(
         "api-gateway",
-        "services:user",
-        "services:notification",
-        "services:exam",
+        "config-service",
+        "service-registry",
+        "services:download",
+        "services:bot",
         "services:jms",
         "services:common",
 )
