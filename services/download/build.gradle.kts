@@ -7,6 +7,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("io.projectreactor.rabbitmq:reactor-rabbitmq:1.5.6")
 
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     //

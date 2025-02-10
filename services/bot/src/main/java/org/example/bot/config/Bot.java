@@ -2,18 +2,17 @@ package org.example.bot.config;
 
 import lombok.extern.log4j.Log4j2;
 import org.example.bot.controller.DestinationController;
+import org.example.bot.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
-import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import reactor.core.publisher.Mono;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,9 @@ public class Bot extends TelegramLongPollingBot {
     private final BotConfig config;
     @Lazy
     private final DestinationController destinationController;
+    private final UserRepository userRepository;
 
-    public Bot(BotConfig config, DestinationController destinationController) {
+    public Bot(BotConfig config, DestinationController destinationController, final UserRepository userRepository) {
         this.config = config;
         this.destinationController = destinationController;
         List<BotCommand> listOfCommands = new ArrayList<>();
@@ -37,6 +37,7 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error(String.valueOf(e.getCause()));
         }
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -51,18 +52,9 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        log.debug(update);
-        SendVideo sendVideo = new SendVideo();
-        sendVideo.setChatId(update.getMessage().getChatId());
-//        sendVideo.setVideo(new InputFile(new File(
-//                "/home/elmurod/Downloads/Telegram Desktop/Classical_Music_for_Brain_Power___Mozart,_Beethoven,_Vivaldi_.mp4")));
-        sendVideo.setVideo(new InputFile("BAACAgQAAxkBAAIsuGeiSvniCHd6E5NJBaFocSEIWLKAAAIUBwAC-5DlUAlDbhGr6VtSNgQ"));
-        try {
-            this.execute(sendVideo);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-            log.error(String.valueOf(e.getCause()));
-        }
+        userRepository.findByTelegramId(update.getMessage().getFrom().getId())
+                .switchIfEmpty(destinationController.createNewUser(update, this).then(Mono.empty())) // Ensure it returns Mono<UserEntity>
+                .flatMap(userEntity -> destinationController.handle(update))
+                .subscribe();
     }
-
 }

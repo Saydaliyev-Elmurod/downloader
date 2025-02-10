@@ -1,4 +1,4 @@
-package org.example.user;
+package org.example.download;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

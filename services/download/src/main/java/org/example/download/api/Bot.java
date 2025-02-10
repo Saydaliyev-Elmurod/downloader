@@ -1,4 +1,4 @@
-package org.example.user.api;
+package org.example.download.api;
 
 import it.tdlight.Init;
 import it.tdlight.client.*;
