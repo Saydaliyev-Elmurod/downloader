@@ -5,8 +5,14 @@ dependencies {
     api(project(":services:common"))
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.cloud:spring-cloud-starter-config")
+//    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+//    implementation("org.springframework.cloud:spring-cloud-starter-config")
+
+    implementation("org.telegram:telegrambots:6.5.0")
+// https://mvnrepository.com/artifact/org.bytedeco/javacv
+    implementation("org.bytedeco:javacv:1.5.11")
+// https://mvnrepository.com/artifact/org.bytedeco/javacv-platform
+    implementation("org.bytedeco:javacv-platform:1.5.11")
 
     //
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
@@ -19,11 +25,7 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:${rootProject.extra.get("mapStructVersion")}")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
-    implementation("io.jsonwebtoken:jjwt-api:0.12.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
-    implementation("io.jsonwebtoken:jjwt:0.12.5")
-    //security
-    implementation("org.springframework.boot:spring-boot-starter-security")
+
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:${rootProject.extra.get("webflux-ui")}")

@@ -12,6 +12,11 @@ allprojects {
     version = "0.0.1-SNAPSHOT"
 
     repositories {
+        maven("https://mvn.mchv.eu/repository/mchv")
+        maven("https://mvn.mchv.eu/repository/mchv-snapshot")
+
+        maven ( "https://jitpack.io" )
+        maven ("https://maven.tdlight.io/releases" )
         mavenCentral()
     }
     dependencyManagement {

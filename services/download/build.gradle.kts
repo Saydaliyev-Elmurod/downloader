@@ -33,6 +33,20 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")
     implementation("org.postgresql:postgresql")
 
+    implementation(platform("it.tdlight:tdlight-java-bom:3.3.1+td.1.8.25"))
+    implementation ( "it.tdlight",  "tdlight-java") // Java 8 is supported if you use the following dependency classifier: `jdk8`
+    implementation ( "it.tdlight",  "tdlight-natives",null,null,"linux_amd64_gnu_ssl1")
+//    implementation("it.tdlight:tdlight-java:jdk8")
+//    implementation("it.tdlight:tdlight-natives:linux_amd64_gnu_ssl1")
+//    compileOnly("it.tdlight:tdlight-natives:linux_amd64_gnu_ssl1")
+//    implementation("it.tdlight:tdlight-natives:linux_amd64_clang_ssl3")
+//    implementation("it.tdlight:tdlight-natives:linux_amd64_gnu_ssl3")
+//    implementation("it.tdlight:tdlight-natives:windows_amd64")
+//    implementation("it.tdlight:tdlight-natives:macos_amd64")
+//    implementation("it.tdlight:tdlight-natives:macos_arm64")
+
+    // Include other native clas
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

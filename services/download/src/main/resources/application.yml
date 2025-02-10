@@ -4,9 +4,6 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8088"
 
-
-
-
   r2dbc:
     url: r2dbc:postgresql://${DATABASE_HOST:localhost:5436}/${DATABASE_NAME:postgres-test?schema=users}
     username: ${DATABASE_USERNAME:postgres}
@@ -20,6 +17,7 @@ spring:
     username: ${RABBIT_USERNAME:M1msoftR@bb!t}
     password: ${RABBIT_PASSWORD:M1msoftR@bb!t}
     exchange: exchange.direct.lamenu
+
 server:
   port: 8201
 
@@ -27,6 +25,19 @@ logging:
   level:
     org.example: info
     org.springframework.security: info
+
+
+api_id: 24295914
+api_hash: 4e6d3378bb3d61258a3716cf7de8b9b0
+
+  # Start with + (for example: "+998972515121")
+phone_number: +998900055072
+
+  # Your user id (You can get from https://t.me/useridinfobot)
+user_id: 802967458
+
+  #You can place your id or someone else
+admin_id: 802967458
 
 
 
