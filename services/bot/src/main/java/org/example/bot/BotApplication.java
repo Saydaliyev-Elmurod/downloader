@@ -2,18 +2,21 @@ package org.example.bot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
-import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
-@ConfigurationPropertiesScan
-@EnableR2dbcAuditing
-@EnableR2dbcRepositories
-@SpringBootApplication
-@ComponentScan("org.example")
+@EnableJpaRepositories
+@EnableJpaAuditing
+@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
+//@EnableFeignClients
+@ConfigurationPropertiesScan("org.example.bot")
+@ComponentScan("org.example.bot")
+
+//@EnableScheduling
 public class BotApplication {
 
     public static void main(String[] args) {

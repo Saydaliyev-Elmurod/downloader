@@ -23,7 +23,7 @@ server:
 
 logging:
   level:
-    org.example: info
+    org.example: debug
     org.springframework.security: info
 
 

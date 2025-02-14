@@ -36,27 +36,6 @@ public class Sender {
     }
   }
 
-  public static void editMsgEntity(
-      Long chatId,
-      Integer messageId,
-      List<MessageEntity> entities,
-      String message,
-      InlineKeyboardMarkup button,
-      Bot bot) {
-    EditMessageText sendMessage = new EditMessageText();
-    sendMessage.setMessageId(messageId);
-    sendMessage.setChatId(chatId);
-    sendMessage.setText(message);
-    sendMessage.setEntities(entities);
-    sendMessage.setReplyMarkup(button);
-    bot.send(sendMessage);
-    try {
-      bot.execute(sendMessage);
-    } catch (TelegramApiException e) {
-      log.error(
-          "Can't send message chat id = {} cause {} {}", chatId, e.getCause(), e.getMessage());
-    }
-  }
 
   public static void editCaptionStyle(
       Long chatId, Integer messageId, String message, InlineKeyboardMarkup button, Bot bot) {

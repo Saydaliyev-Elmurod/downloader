@@ -6,14 +6,31 @@ spring:
       enabled: false
   #  config:
 #    import: "optional:configserver:http://localhost:8088"
+  batch:
+    jdbc:
+      initialize-schema: always
 
-
-  r2dbc:
-    url: r2dbc:postgresql://${DATABASE_HOST:localhost:5434}/${DATABASE_NAME:postgres?schema=bot}
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost:5434}/${DATABASE_NAME:postgres?schema=bot}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:secret}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddl-auto: validate # Apply missing Flyway scripts to DB, and validate if JPA and DB model match during startup
+    # https://stackoverflow.com/questions/30549489/what-is-this-spring-jpa-open-in-view-true-property-in-spring-boot
+    open-in-view: false
     properties:
-      schema: bot
+      hibernate:
+        default_schema: poster
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+        jdbc:
+          lob:
+            non_contextual_creation: true
 
   data:
     redis:
@@ -42,14 +59,14 @@ telegram:
   username: DarholYuklaBot
   token: 7662077597:AAHbZlqnc3kT7DmDpjilAeZNxlmbE1VtvFM
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
 
 logging:
   level:
-    org.example: info
+    org.example: debug
     org.springframework.security: info
 server:
   port: 8202

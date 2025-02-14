@@ -2,6 +2,7 @@ package org.example.bot.config;
 
 import lombok.extern.log4j.Log4j2;
 import org.example.bot.controller.DestinationController;
+import org.example.bot.domain.UserEntity;
 import org.example.bot.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +52,15 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        userRepository.findByTelegramId(update.getMessage().getFrom().getId())
-                .switchIfEmpty(destinationController.createNewUser(update, this).then(Mono.empty())) // Ensure it returns Mono<UserEntity>
-                .flatMap(userEntity -> destinationController.handle(update))
-                .subscribe();
+        log.info("Received update from chat [{}]", update.getMessage().getChatId());
+
+        final UserEntity user = userRepository.findByTelegramId(update.getMessage().getChatId());
+        if (user == null) {
+            destinationController.createNewUser(update, this);
+        } else {
+            destinationController.handle(update);
+        }
     }
+
+
 }

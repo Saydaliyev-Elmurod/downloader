@@ -1,12 +1,16 @@
 apply(plugin = "org.springframework.boot")
 
 dependencies {
-    api(project(":services:jms"))
+//    api(project(":services:jms"))
     api(project(":services:common"))
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    // Spring
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 //    implementation("org.springframework.cloud:spring-cloud-starter-config")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     implementation("org.telegram:telegrambots:6.5.0")
 // https://mvnrepository.com/artifact/org.bytedeco/javacv
@@ -14,8 +18,8 @@ dependencies {
 // https://mvnrepository.com/artifact/org.bytedeco/javacv-platform
     implementation("org.bytedeco:javacv-platform:1.5.11")
 
-    //
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+// https://mvnrepository.com/artifact/org.telegram/telegrambots
+    implementation("org.telegram:telegrambots:6.9.7.1")
     implementation("org.liquibase:liquibase-core")
     // lombok and mapstruct
     compileOnly("org.projectlombok:lombok")
@@ -27,12 +31,12 @@ dependencies {
 
 
     // redis
-    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
-    implementation("org.springdoc:springdoc-openapi-webflux-ui:${rootProject.extra.get("webflux-ui")}")
+//    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+//    implementation("org.springdoc:springdoc-openapi-webflux-ui:${rootProject.extra.get("webflux-ui")}")
 
     //postgres
-    implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")
-    implementation("org.postgresql:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
+//    implementation("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

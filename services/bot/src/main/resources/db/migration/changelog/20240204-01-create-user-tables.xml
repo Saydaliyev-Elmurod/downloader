@@ -14,7 +14,6 @@
                 uuid_generate_v4
             (
             ) NOT NULL ,
-                user_id UUID,
                 telegram_id BIGINT,
                 first_name TEXT,
                 last_name TEXT,

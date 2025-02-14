@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
     <Properties>
-        <Property name="baseDir">/opt/test/log/download-service</Property>
+        <Property name="baseDir">/opt/lamenu/log/download-service</Property>
         <Property name="filename">download-service.log</Property>
     </Properties>
     <Filter type="ThresholdFilter" level="info"/>
