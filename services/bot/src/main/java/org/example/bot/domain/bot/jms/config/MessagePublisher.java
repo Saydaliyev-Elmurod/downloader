@@ -1,4 +1,4 @@
-package org.example.bot.jms;
+package org.example.bot.domain.bot.jms.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.bot.config.RabbitProperties;
+import org.example.bot.domain.bot.config.RabbitProperties;
 import org.example.common.exception.exp.JsonParsingException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

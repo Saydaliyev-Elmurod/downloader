@@ -1,7 +1,6 @@
-package org.example.bot.repository;
+package org.example.bot.domain.bot.repository;
 
-import org.example.bot.domain.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.example.bot.domain.bot.domain.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

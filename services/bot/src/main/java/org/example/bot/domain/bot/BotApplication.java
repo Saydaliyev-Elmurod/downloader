@@ -1,4 +1,4 @@
-package org.example.bot;
+package org.example.bot.domain.bot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,11 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EnableJpaAuditing
 @SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
-//@EnableFeignClients
 @ConfigurationPropertiesScan("org.example.bot")
 @ComponentScan("org.example.bot")
-
-//@EnableScheduling
 public class BotApplication {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package org.example.bot.config;
+package org.example.bot.domain.bot.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

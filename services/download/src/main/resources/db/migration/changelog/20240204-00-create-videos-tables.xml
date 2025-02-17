@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <changeSet id="create-tables" author="elmurod">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+
+            CREATE TABLE IF NOT EXISTS download.videos
+            (
+                id
+                UUID
+                default
+                uuid_generate_v4
+            (
+            ) NOT NULL ,
+                hash TEXT,
+                title TEXT,
+                description TEXT,
+                duration INTEGER,
+                thumbnail TEXT,
+                thumbnail_file_id  TEXT,
+                video_url TEXT,
+                video_file_id TEXT,
+
+                video144_file_id    TEXT,
+                video144_file_url    TEXT,
+
+                video240_file_id    TEXT,
+                video240_file_url    TEXT,
+
+                video360_file_id    TEXT,
+                video360_file_url    TEXT,
+
+                video480_file_id    TEXT,
+                video480_file_url    TEXT,
+
+                video720_file_id    TEXT,
+                video720_file_url    TEXT,
+
+                video1080_file_id    TEXT,
+                video1080_file_url    TEXT,
+
+                video1440_file_id    TEXT,
+                video1440_file_url    TEXT,
+
+                created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                last_modified_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

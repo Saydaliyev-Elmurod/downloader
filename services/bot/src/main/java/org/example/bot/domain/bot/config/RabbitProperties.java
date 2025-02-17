@@ -1,4 +1,4 @@
-package org.example.bot.config;
+package org.example.bot.domain.bot.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.Assert;

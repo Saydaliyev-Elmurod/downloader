@@ -25,7 +25,6 @@ public class VideoDownloadConsumer extends BaseConsumer {
     @Override
     protected Mono<Void> consume(final Delivery message) throws IOException {
         log.info("Consume  [{}]", message);
-        System.out.println("Consume---------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         VideoDownloadReply reply = objectMapper.readValue(message.getBody(), VideoDownloadReply.class);
         return downloadService.addToQueue(reply);
     }

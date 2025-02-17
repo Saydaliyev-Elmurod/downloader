@@ -1,4 +1,4 @@
-package org.example.bot.watermark;
+package org.example.bot.domain.bot.watermark;
 
 import org.bytedeco.javacv.*;
 

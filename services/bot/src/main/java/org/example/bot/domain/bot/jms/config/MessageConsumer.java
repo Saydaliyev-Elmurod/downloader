@@ -1,4 +1,4 @@
-package org.example.bot.jms;
+package org.example.bot.domain.bot.jms.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
