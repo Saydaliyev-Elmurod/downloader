@@ -6,6 +6,7 @@ import org.example.bot.domain.bot.config.Bot;
 import org.example.bot.domain.bot.domain.UserEntity;
 import org.example.bot.domain.bot.jms.config.MessagePublisher;
 import org.example.bot.domain.bot.repository.UserRepository;
+import org.example.bot.domain.bot.service.DownloadService;
 import org.example.bot.domain.bot.util.Sender;
 import org.example.common.util.jms.VideoDownloadReply;
 import org.springframework.stereotype.Component;
@@ -17,17 +18,21 @@ import java.time.Instant;
 @Log4j2
 @AllArgsConstructor
 public class MessageController {
+    private final Bot bot;
+
     private final MessagePublisher messagePublisher;
     private final UserRepository userRepository;
+    private final DownloadService downloadService;
 
     public void handle(final Update update) {
         final String text = update.getMessage().getText();
         log.info("Start handle method");
         if (isLink(text)) {
+            downloadService.downloadVideo(text,"home/elmurod/videos",update.getMessage().getChatId());
 //            if (video != null) {
 //                Sender.send();
 //            } else {
-                messagePublisher.publish(new VideoDownloadReply(update.getMessage().getChatId(), text, Instant.now()));
+//                messagePublisher.publish(new VideoDownloadReply(update.getMessage().getChatId(), text, Instant.now()));
 //            }
 
         } else {
