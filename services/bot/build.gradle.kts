@@ -18,8 +18,13 @@ dependencies {
 // https://mvnrepository.com/artifact/org.bytedeco/javacv-platform
     implementation("org.bytedeco:javacv-platform:1.5.11")
 
-// https://mvnrepository.com/artifact/org.telegram/telegrambots
-    implementation("org.telegram:telegrambots:6.9.7.1")
+
+    //telegram
+    implementation("org.telegram:telegrambots-meta:8.2.0")
+    implementation("org.telegram:telegrambots-longpolling:8.2.0")
+    implementation("org.telegram:telegrambots-client:8.2.0")
+    implementation("org.telegram:telegrambots-springboot-longpolling-starter:8.2.0")
+
     implementation("org.liquibase:liquibase-core")
     // lombok and mapstruct
     compileOnly("org.projectlombok:lombok")

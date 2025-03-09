@@ -28,13 +28,7 @@ public class MessageController {
         final String text = update.getMessage().getText();
         log.info("Start handle method");
         if (isLink(text)) {
-            downloadService.downloadVideo(text,"home/elmurod/videos",update.getMessage().getChatId());
-//            if (video != null) {
-//                Sender.send();
-//            } else {
-//                messagePublisher.publish(new VideoDownloadReply(update.getMessage().getChatId(), text, Instant.now()));
-//            }
-
+            downloadService.downloadVideo(text, "videos", update.getMessage().getChatId());
         } else {
             // TODO: Music search logic
 

@@ -7,6 +7,7 @@ import org.example.bot.domain.bot.config.Bot;
 import org.example.bot.domain.bot.model.VideoInfo;
 import org.example.bot.domain.bot.util.Sender;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
@@ -67,6 +68,12 @@ public class DownloadService {
 
     public void downloadVideo(String videoUrl, String outputPath, final Long chatId) {
         final String string = readVideoInfo(videoUrl);
+
+
+        //send video info
+        SendPhoto sendPhoto = new SendPhoto();
+
+
         VideoInfo videoInfo = parseJson(string);
         File directory = new File(outputPath);
 
@@ -99,7 +106,7 @@ public class DownloadService {
                 "ffmpeg", "-i", outputPath + "/video.webm", "-c:v", "libx264", "-c:a", "aac", outputPath + "/video.mp4"
         );
 
-        processBuilder.redirectErrorStream(true); // Xatolarni chiqarish uchun
+        processBuilder.redirectErrorStream(true);
 
         try {
             Process process = processBuilder.start();
@@ -107,21 +114,23 @@ public class DownloadService {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line); // FFmpeg chiqishini konsolga chiqarish
+                System.out.println(line);
             }
 
             int exitCode = process.waitFor();
             System.out.println("Process finished with exit code: " + exitCode);
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error("Error downloading video", e);
         }
 
         SendVideo sendVideo = new SendVideo();
         sendVideo.setChatId(chatId);
         sendVideo.setVideo(new InputFile(new File(outputPath + "/video.mp4")));
-        sendVideo.setCaption("string");
-        sendVideo.setThumbnail(new InputFile(videoInfo.thumbnail()));
+        if (videoInfo != null) {
+            sendVideo.setCaption(videoInfo.title());
+            sendVideo.setThumbnail(new InputFile(videoInfo.thumbnail()));
+        }
         sendVideo.setSupportsStreaming(true);
         Sender.send(sendVideo, bot);
     }
